@@ -10,6 +10,8 @@ import vk_api
 import random
 import time
 
+
+logs_file = "/home/pi/Documents/logs.txt"
 ID_ZHENYA = 369591033
 
 gifs = ["doc151898113_553723460", "doc151898113_553723478", "doc151898113_553723471", "doc151898113_553723914",
@@ -41,6 +43,7 @@ def bot_loop(longpoll_object, vk):
 
     for event in longpoll_object.listen():
         print(event)
+        received_event_logs(logs_file)
         if event.type == VkBotEventType.MESSAGE_NEW:
             # bot was added to the conversation
             if event.object.message["text"] == "":
@@ -130,11 +133,53 @@ def random_phrase():
     r_phrase = phrases[prase_index]
     return r_phrase
 
+def init_logs(filename):
+    """
+    writes filelogs to logs.txt
+    """
+    file = open(filename, "a")
+    file.write("\nWriting to log file. Program started running.")
+    file.close()
+
+def shut_down_logs(filename):
+    """
+    writes shutdown to logs.txt
+    """
+    file = open(filename, "a")
+    file.write("\nFinished executing bot loop. Shutting down...")
+    file.close()
+
+def received_event_logs(filename):
+    """
+    received event from longpoll server
+    sending message to the log file
+    """
+    file = open(filename, "a")
+    file.write("\nReceived event from longpoll server")
+    file.close()
+
+def custom_message(filename, message):
+    """
+    prints a custom message to the logs
+    """
+    file = open(filename, "a")
+    file.write("\n" + message)
+    file.close()
+
 def main():
+    init_logs(logs_file)
+    print("initializing token and group id")
+    custom_message(logs_file, "initializing token and group id")
     token = '2b8aa808598003ea90db24446159e6a5badf11eead9cfd92ff17da3c86300aefabb22d10c785b1207bd53'
     group_id = 119335933
+    print("connecting to lognpoll server")
+    custom_message(logs_file, "connecting to longpoll server")
     longpoll, vk = connect(token, group_id)
+    print("starting up bot main loop")
+    custom_message(logs_file, "starting up bot main loop")
+    time.sleep(10)
     bot_loop(longpoll, vk)
+    shut_down_logs(logs_file)
 
 if __name__ == '__main__':
     main()
