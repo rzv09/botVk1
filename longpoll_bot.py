@@ -178,8 +178,13 @@ def main():
     print("starting up bot main loop")
     custom_message(logs_file, "starting up bot main loop")
     time.sleep(10)
-    bot_loop(longpoll, vk)
-    shut_down_logs(logs_file)
+    try:
+        bot_loop(longpoll, vk)
+    except:
+        print("exception occurred while running the loop. Shutting down")
+        custom_message(logs_file, "exception occurred while running the loop. Shutting down")
+    finally:
+        shut_down_logs(logs_file)
 
 if __name__ == '__main__':
     main()
