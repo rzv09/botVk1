@@ -109,18 +109,18 @@ def bot_loop(longpoll_object, vk):
                             users_storage = []
 
 
-def choose_pidor(pidors):
+def choose_user(users):
     """
     chooses a random pidor from a list of ids
     :param pidors: list of ids
     :return: random id
     """
-    pidor_index = random.randint(0, len(pidors)-1)
-    if ID_ZHENYA in pidors:
-        pidor_id = ID_ZHENYA
+    user_index = random.randint(0, len(users)-1)
+    if ID_ZHENYA in users:
+        user_id = ID_ZHENYA
     else:
-        pidor_id = pidors[pidor_index]
-    return pidor_id
+        user_id = users[user_index]
+    return user_id
 
 def random_phrase():
     """
